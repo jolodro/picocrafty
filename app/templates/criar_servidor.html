@@ -37,8 +37,13 @@
             </div>
             <div class="mb-3">
                 <label for="versao" class="form-label">Versão do Minecraft</label>
-                <input type="text" class="form-control" id="versao" name="versao" placeholder="Ex: 1.20.1" required>
-                <div class="invalid-feedback">Por favor, insira a versão.</div>
+                <select class="form-select" id="versao" name="versao" required>
+                    <option value="">Selecione...</option>
+                        {% for v in versoes.java %}
+                            <option value="{{ v }}">{{ v }}</option>
+                        {% endfor %}
+                </select>
+                <div class="invalid-feedback">Por favor, escolha a versão.</div>
             </div>
             <div class="mb-3">
                 <label for="ram" class="form-label">RAM Alocada (GB)</label>
@@ -78,5 +83,25 @@
             })
         })()
     </script>
+    <script>
+    const versoes = {{ versoes | tojson }};
+
+    const tipo = document.getElementById("tipo");
+    const versao = document.getElementById("versao");
+
+    function atualizarVersoes() {
+        versao.innerHTML = "";
+
+        versoes[tipo.value].forEach(v => {
+            const option = document.createElement("option");
+            option.value = v;
+            option.textContent = v;
+            versao.appendChild(option);
+        });
+    }
+
+    tipo.addEventListener("change", atualizarVersoes);
+    </script>
+
 </body>
 </html>

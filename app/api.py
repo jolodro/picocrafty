@@ -70,7 +70,7 @@ def deletar_servidor(id):
     if not servidor:
         return jsonify({"sucesso": False}), 404
     
-    if get_status(id)["running"] != "parado":
+    if get_status(id)["running"] != False:
         return jsonify({"sucesso": False}), "Servidor Rodando"
     
     if os.path.isdir(servidor.path):
